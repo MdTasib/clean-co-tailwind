@@ -5,6 +5,7 @@ import fetcher from "../../api";
 
 const AddAdmin = () => {
 	const [imageUrl, setImageUrl] = useState("");
+	const [loading, setLoading] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const onSubmit = async data => {
 		const serviceData = {
@@ -17,6 +18,7 @@ const AddAdmin = () => {
 	};
 
 	const handleImage = event => {
+		setLoading(true);
 		const image = event.target.files[0];
 		const formData = new FormData();
 		formData.set("image", image);
@@ -25,7 +27,10 @@ const AddAdmin = () => {
 				"https://api.imgbb.com/1/upload?key=eb7bb93d7839539a8bddb41471f7e0da",
 				formData
 			)
-			.then(res => setImageUrl(res.data.data.url))
+			.then(res => {
+				setImageUrl(res.data.data.url);
+				setLoading(false);
+			})
 			.catch(error => console.log(error));
 	};
 
@@ -55,13 +60,20 @@ const AddAdmin = () => {
 								{...register("serviceCharge")}
 							/>
 						</div>
-						<div className='form-control'>
-							<label className='label'>
-								<span className='label-text'>Image</span>
+						<div class='form-control'>
+							<label
+								htmlFor='image'
+								class={
+									loading
+										? "btn btn-primary loading mt-5"
+										: "btn btn-primary mt-5"
+								}>
+								Upload Image
 							</label>
 							<input
 								type='file'
-								className='input input-bordered'
+								id='image'
+								class='input input-bordered hidden'
 								onChange={handleImage}
 							/>
 						</div>
