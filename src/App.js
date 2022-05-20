@@ -4,8 +4,12 @@ import { publicRoutes } from "./routes/publicRoutes";
 import { privateRoutes } from "./routes/privateRoutes";
 import { useEffect, useState } from "react";
 import PrivateRoute from "./authentication/PrivateRoute";
+import AdminRoute from "./authentication/AdminRoute";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import AddAdmin from "./pages/Dashboard/AddAdmin";
+import AddService from "./pages/Dashboard/AddService";
 
 function App() {
 	const [dark, setDark] = useState(false);
@@ -26,6 +30,12 @@ function App() {
 					{privateRoutes.map(({ path, Component }, index) => (
 						<Route key={index} path={path} element={<Component />} />
 					))}
+				</Route>
+				<Route element={<AdminRoute />}>
+					<Route path='/dashboard' element={<Dashboard />}>
+						<Route path='add-admin' element={<AddAdmin />} />
+						<Route path='add-service' element={<AddService />} />
+					</Route>
 				</Route>
 			</Routes>
 		</div>

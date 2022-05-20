@@ -1,7 +1,11 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import useAdmin from "../hooks/useAdmin";
 
 const Navbar = ({ children, theme: [dark, setDark] }) => {
+	const [admin] = useAdmin();
+	const { pathname } = useLocation();
+
 	const menuItems = (
 		<>
 			<li>
@@ -9,6 +13,13 @@ const Navbar = ({ children, theme: [dark, setDark] }) => {
 					Home
 				</NavLink>
 			</li>
+			{admin && (
+				<li>
+					<NavLink to='/dashboard/add-admin' className='rounded-lg'>
+						Dashboard
+					</NavLink>
+				</li>
+			)}
 			<li>
 				<NavLink to='/about' className='rounded-lg'>
 					About
@@ -93,6 +104,26 @@ const Navbar = ({ children, theme: [dark, setDark] }) => {
 			<div className='navbar-center hidden lg:flex'>
 				<ul className='menu menu-horizontal p-0'>{menuItems}</ul>
 			</div>
+			{pathname.includes("dashboard") && (
+				<label
+					tabindex='0'
+					class='btn btn-ghost btn-circle lg:hidden ml-auto'
+					htmlFor='my-drawer-2'>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						class='h-5 w-5'
+						fill='none'
+						viewBox='0 0 24 24'
+						stroke='currentColor'>
+						<path
+							stroke-linecap='round'
+							stroke-linejoin='round'
+							stroke-width='2'
+							d='M4 6h16M4 12h16M4 18h7'
+						/>
+					</svg>
+				</label>
+			)}
 		</div>
 	);
 };
