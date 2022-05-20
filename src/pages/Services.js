@@ -6,7 +6,7 @@ const Services = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetecher.get("/service");
+			const res = await fetecher.get("/get-service");
 			setServices(res.data);
 		})();
 	}, []);
